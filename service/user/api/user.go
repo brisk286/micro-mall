@@ -16,10 +16,13 @@ var configFile = flag.String("f", "etc/user.yaml", "the config file")
 func main() {
 	flag.Parse()
 
+	// 将etc/user.yaml配置解析到c
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
+	// 上下文
 	ctx := svc.NewServiceContext(c)
+	// server
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 

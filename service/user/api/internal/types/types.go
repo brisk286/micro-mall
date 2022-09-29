@@ -7,8 +7,10 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	AccessToken  string `json:"accessToken"`
-	AccessExpire int64  `json:"accessExpire"`
+	// token
+	AccessToken string `json:"accessToken"`
+	// 超时时间
+	AccessExpire int64 `json:"accessExpire"`
 }
 
 type RegisterRequest struct {

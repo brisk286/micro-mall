@@ -25,7 +25,10 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 	}
 }
 
+// Login 登录实现
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
+
+	// 使用内部rpc进行login
 	res, err := l.svcCtx.UserRpc.Login(l.ctx, &user.LoginRequest{
 		Mobile:   req.Mobile,
 		Password: req.Password,
@@ -37,6 +40,8 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 	now := time.Now().Unix()
 	accessExpire := l.svcCtx.Config.Auth.AccessExpire
 
+	// 生成token
+	// 密钥 签发时间 过期时间  responseId
 	accessToken, err := jwtx.GetToken(l.svcCtx.Config.Auth.AccessSecret, now, accessExpire, res.Id)
 	if err != nil {
 		return nil, err
