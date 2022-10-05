@@ -1,0 +1,38 @@
+syntax = "v1"
+
+info(
+	title: "用户中心"
+	desc: "用户中心"
+	author: "brisk286"
+)
+
+import (
+	"usermodel/usermodel.api"
+)
+
+@server(
+	group: user/v1
+)
+service user {
+	
+	@doc "注册"
+	@handler register
+	post /register (RegisterReq) returns (RegisterResp)
+
+	@doc "登录"
+	@handler login
+	post /login (LoginReq) returns (LoginResp)
+}
+
+// 需要登录鉴权
+@server(
+	prefix: user/v1
+	group: user
+	jwt: JwtAuth
+)
+service user {
+
+	@doc "获取用户信息"
+	@handler detail
+	post /detail (UserInfoReq) returns (UserInfoResp)
+}

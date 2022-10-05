@@ -1,0 +1,51 @@
+syntax = "v1"
+
+info(
+    title: "用户实例"
+    desc: "用户实例"
+    author: "brisk286"
+)
+
+type User {
+	Id       int64  `json:"id"`
+	Mobile   string `json:"mobile"`
+	Nickname string `json:"nickname"`
+	Sex      int64  `json:"sex"`
+	Avatar   string `json:"avatar"`
+	Info     string `json:"info"`
+}
+
+// 注册
+type (
+	RegisterReq {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
+	RegisterResp {
+		AccessToken  string `json:"accessToken"`
+		AccessExpire int64  `json:"accessExpire"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+)
+
+// 登录
+type (
+	LoginReq {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
+	LoginResp {
+		AccessToken  string `json:"accessToken"`
+		AccessExpire int64  `json:"accessExpire"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+)
+
+// 获取用户信息
+type (
+	UserInfoReq {
+	}
+	UserInfoResp {
+		UserInfo User `json:"userInfo"`
+	}
+)
