@@ -9,6 +9,7 @@ import (
 // CtxKeyJwtUserId get uid from ctx
 var CtxKeyJwtUserId = "jwtUserId"
 
+// 获取上下文的userid
 func GetUidFromCtx(ctx context.Context) int64 {
 	var uid int64
 	if jsonUid, ok := ctx.Value(CtxKeyJwtUserId).(json.Number); ok {

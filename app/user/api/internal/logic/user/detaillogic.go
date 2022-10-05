@@ -2,6 +2,9 @@ package user
 
 import (
 	"context"
+	"github.com/jinzhu/copier"
+	"micro-mall-server/app/user/rpc/userrpc"
+	"micro-mall-server/common/ctxdata"
 
 	"micro-mall-server/app/user/api/internal/svc"
 	"micro-mall-server/app/user/api/internal/types"
@@ -24,7 +27,20 @@ func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogi
 }
 
 func (l *DetailLogic) Detail(req *types.UserInfoReq) (resp *types.UserInfoResp, err error) {
-	// todo: add your logic here and delete this line
 
-	return
+	userId := ctxdata.GetUidFromCtx(l.ctx)
+
+	userInfoResp, err := l.svcCtx.UserRpc.GetUserInfo(l.ctx, &userrpc.GetUserInfoReq{
+		Id: userId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var userInfo types.User
+	_ = copier.Copy(&userInfo, userInfoResp.User)
+
+	return &types.UserInfoResp{
+		UserInfo: userInfo,
+	}, nil
 }
